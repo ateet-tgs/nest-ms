@@ -21,12 +21,21 @@
     "test:e2e": "jest --config ./apps/admin-app/test/jest-e2e.json"
   },
   "dependencies": {
+    "@keyv/redis": "^5.1.2",
+    "@nestjs/cache-manager": "^3.0.1",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/microservices": "^11.1.6",
     "@nestjs/mongoose": "^11.0.3",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/sequelize": "^11.0.0",
+    "amqp-connection-manager": "^5.0.0",
+    "amqplib": "^0.10.9",
+    "cache-manager": "^7.2.3",
+    "cache-manager-ioredis-yet": "^2.1.2",
+    "cacheable": "^2.1.0",
+    "ioredis": "^5.8.1",
     "mongoose": "^8.19.0",
     "mysql2": "^3.15.1",
     "reflect-metadata": "^0.2.2",
@@ -84,6 +93,8 @@
       "^@app/config(|/.*)$": "<rootDir>/libs/config/src/$1",
       "^@app/database(|/.*)$": "<rootDir>/libs/database/src/$1",
       "^@app/library(|/.*)$": "<rootDir>/libs/library/src/$1",
+      "^@app/rabbitmq(|/.*)$": "<rootDir>/libs/rabbitmq/src/$1",
+      "^@app/redis-cache(|/.*)$": "<rootDir>/libs/redis-cache/src/$1",
       "^defaultLibraryPrefix/libs(|/.*)$": "<rootDir>/libs/libs/src/$1"
     }
   }
