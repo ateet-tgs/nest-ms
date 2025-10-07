@@ -1,12 +1,46 @@
-import { Controller, Get } from '@nestjs/common';
-import { AuthServiceService } from './auth-service.service';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { AuthService } from './auth-service.service';
+import { LoginDto, RegisterDto } from '@app/common/dto';
+import { YupValidationPipe } from '@app/common/pipes';
+import { createUserSchema } from '@app/common/validators/user.validators';
+import { loginUserSchema } from '@app/common/validators/auth.validators';
+import { JwtAuthGuard } from '@app/common/gaurds';
+import { RolesGuard } from '@app/common/gaurds/roles.guard';
+import { Roles } from '@app/common/decorators';
 
-@Controller()
-export class AuthServiceController {
-  constructor(private readonly authServiceService: AuthServiceService) {}
+@Controller('auth')
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
 
-  @Get()
-  getHello(): string {
-    return this.authServiceService.getHello();
+  @Post('register')
+  register(@Body(new YupValidationPipe(createUserSchema)) body: RegisterDto) {
+    return this.authService.register(body);
+  }
+
+  @Post('login')
+  login(@Body(new YupValidationPipe(loginUserSchema)) body: LoginDto) {
+    return this.authService.login(body);
+  }
+
+  @Post('refresh')
+  refresh(@Body('refreshToken') token: string) {
+    return this.authService.refreshToken(token);
+  }
+
+  @Get('me')
+  @UseGuards(JwtAuthGuard)
+  getProfile(@Req() req) {
+    return {
+      data: req.user,
+      message: 'User profile retrieved successfully',
+      status: true,
+    };
+  }
+
+  @Get('admin')
+  @Roles('admin')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  adminRoute(@Req() req) {
+    return { message: 'Hello Admin', user: req.user };
   }
 }

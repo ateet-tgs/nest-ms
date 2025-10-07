@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigService } from '@nestjs/config';
-import { Customer, Order } from './models';
+import { Customer, Item, Order, OrderProcessingLog } from './models';
 import {
   CustomerActivityLog,
   CustomerActivityLogSchema,
@@ -23,7 +23,7 @@ import {
         password: config.get<string>('DB_PASS'),
         database: config.get<string>('DB_NAME'),
         autoLoadModels: true,
-        models: [Customer, Order],
+        models: [Customer, Order, OrderProcessingLog, Item],
         synchronize: true, // not recommended for prod
         logging: false,
       }),

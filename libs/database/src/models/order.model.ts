@@ -7,8 +7,10 @@ import {
   Default,
   ForeignKey,
   BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
 import { Customer } from './customer.model';
+import { OrderProcessingLog } from './order-processing-log.model';
 
 @Table({
   tableName: 'orders',
@@ -44,4 +46,7 @@ export class Order extends Model<Order> {
 
   @BelongsTo(() => Customer)
   customer: Customer;
+
+  @HasMany(() => OrderProcessingLog)
+  logs: OrderProcessingLog[];
 }
