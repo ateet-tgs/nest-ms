@@ -22,7 +22,14 @@ export const createItemSchema = yup.object({
     .required('Stock quantity is required')
     .min(0, 'Stock quantity must be >= 0')
     .integer('Stock quantity must be an integer'),
-  metadata: yup.object().optional(),
+  metadata: yup
+    .object({
+      brand: yup.string().optional(),
+      category: yup.string().optional(),
+      color: yup.string().optional(),
+      warrantyMonths: yup.string().optional(),
+    })
+    .optional(),
 });
 
 export const updateItemSchema = createItemSchema;

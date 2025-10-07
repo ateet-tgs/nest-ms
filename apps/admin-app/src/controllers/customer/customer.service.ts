@@ -1,6 +1,7 @@
 import { CreateCustomerDto, UpdateCustomerDto } from '@app/common/dto';
 import { Customer } from '@app/database/models';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { InjectModel } from '@nestjs/sequelize';
 
 @Injectable()
@@ -8,19 +9,37 @@ export class CustomerService {
   constructor(
     @InjectModel(Customer)
     private readonly customerModel: typeof Customer,
+    @Inject('MAIL_SERVICE') private readonly mailClient: ClientProxy,
   ) {}
 
   async create(data: CreateCustomerDto) {
     try {
-      const item = await this.customerModel.create(data as any);
+      const item = await this.customerModel.create(
+        {
+          ...data,
+          password: '123123',
+        } as any,
+        {
+          hooks: true,
+        },
+      );
+      this.mailClient.emit(
+        { cmd: 'send_mail' },
+        { to: data.email, subject: 'Hi', body: 'Welcome to Expriment!' },
+      );
       return item;
     } catch (error) {
-      throw new Error(error.message);
+      return error;
     }
   }
 
-  findAll() {
-    return `This action returns all customer`;
+  async findAll() {
+    try {
+      const items = await this.customerModel.findAll();
+      return items;
+    } catch (error) {
+      return error;
+    }
   }
 
   findOne(id: number) {

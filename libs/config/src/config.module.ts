@@ -9,8 +9,6 @@ function getEnvFilePaths(): string[] {
 
   const appName = process.env.APP_NAME || 'api'; // fallback if not set
   const env = process.env.NODE_ENV || 'development';
-  console.log(appName);
-
   const appEnvFile = path.resolve(__dirname, `../../../apps/${appName}/.env`);
   const appEnvFileSpecific = path.resolve(
     __dirname,

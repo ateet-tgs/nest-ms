@@ -7,16 +7,19 @@ import {
   PrimaryKey,
   Default,
   Unique,
+  BeforeCreate,
+  BeforeUpdate,
 } from 'sequelize-typescript';
+import * as bcrypt from 'bcrypt';
 import { Order } from './order.model';
 
 @Table({
   tableName: 'customers',
-  timestamps: true, // adds createdAt / updatedAt
+  timestamps: true,
 })
 export class Customer extends Model<Customer> {
   @PrimaryKey
-  @Default(DataType.UUIDV4) // or remove this if you're using INT autoincrement
+  @Default(DataType.UUIDV4)
   @Column({
     type: DataType.UUID,
   })
@@ -26,21 +29,47 @@ export class Customer extends Model<Customer> {
     type: DataType.STRING,
     allowNull: false,
   })
-  name: string;
+  declare name: string;
 
   @Unique
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  email: string;
+  declare email: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare password: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: true,
   })
-  phone?: string;
+  declare phone?: string;
 
   @HasMany(() => Order)
-  orders: Order[];
+  declare orders: Order[];
+
+  @BeforeCreate
+  static async hashPasswordOnCreate(instance: Customer) {
+    if (instance.dataValues.password) {
+      const salt = await bcrypt.genSalt(10);
+      instance.password = await bcrypt.hash(instance.password, salt);
+    }
+  }
+
+  @BeforeUpdate
+  static async hashPasswordOnUpdate(instance: Customer) {
+    if (instance.changed('password')) {
+      const salt = await bcrypt.genSalt(10);
+      instance.password = await bcrypt.hash(instance.password, salt);
+    }
+  }
+
+  async validatePassword(plainPassword: string): Promise<boolean> {
+    return bcrypt.compare(plainPassword, this.password);
+  }
 }

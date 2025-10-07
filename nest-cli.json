@@ -64,6 +64,15 @@
         "tsConfigPath": "libs/library/tsconfig.lib.json"
       }
     },
+    "mail-service": {
+      "type": "application",
+      "root": "apps/mail-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/mail-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/mail-service/tsconfig.app.json"
+      }
+    },
     "order-module": {
       "type": "application",
       "root": "apps/order-module",
@@ -71,6 +80,24 @@
       "sourceRoot": "apps/order-module/src",
       "compilerOptions": {
         "tsConfigPath": "apps/order-module/tsconfig.app.json"
+      }
+    },
+    "rabbitmq": {
+      "type": "library",
+      "root": "libs/rabbitmq",
+      "entryFile": "index",
+      "sourceRoot": "libs/rabbitmq/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/rabbitmq/tsconfig.lib.json"
+      }
+    },
+    "redis-cache": {
+      "type": "library",
+      "root": "libs/redis-cache",
+      "entryFile": "index",
+      "sourceRoot": "libs/redis-cache/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/redis-cache/tsconfig.lib.json"
       }
     }
   }

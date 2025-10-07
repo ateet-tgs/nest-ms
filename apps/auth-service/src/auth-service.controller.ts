@@ -1,8 +1,7 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth-service.service';
-import { LoginDto, RegisterDto } from '@app/common/dto';
+import { LoginDto } from '@app/common/dto';
 import { YupValidationPipe } from '@app/common/pipes';
-import { createUserSchema } from '@app/common/validators/user.validators';
 import { loginUserSchema } from '@app/common/validators/auth.validators';
 import { JwtAuthGuard } from '@app/common/gaurds';
 import { RolesGuard } from '@app/common/gaurds/roles.guard';
@@ -11,11 +10,6 @@ import { Roles } from '@app/common/decorators';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
-  @Post('register')
-  register(@Body(new YupValidationPipe(createUserSchema)) body: RegisterDto) {
-    return this.authService.register(body);
-  }
 
   @Post('login')
   login(@Body(new YupValidationPipe(loginUserSchema)) body: LoginDto) {

@@ -1,14 +1,31 @@
 import { CreateItemDto, UpdateItemDto } from '@app/common/dto';
+import { Item } from '@app/database/models';
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
 
 @Injectable()
 export class ItemsService {
-  create(createItemDto: CreateItemDto) {
-    return 'This action adds a new item';
+  constructor(
+    @InjectModel(Item)
+    private readonly itemModel: typeof Item,
+  ) {}
+
+  async create(createItemDto: CreateItemDto) {
+    try {
+      const data = await this.itemModel.create(createItemDto as any);
+      return data;
+    } catch (error) {
+      return error;
+    }
   }
 
-  findAll() {
-    return `This action returns all items`;
+  async findAll() {
+    try {
+      const items = await this.itemModel.findAll();
+      return { data: items, status: true };
+    } catch (error) {
+      return error;
+    }
   }
 
   findOne(id: number) {
