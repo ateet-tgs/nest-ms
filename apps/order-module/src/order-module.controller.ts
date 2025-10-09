@@ -37,6 +37,14 @@ export class OrderModuleController {
     return this.orderModuleService.create(data, customerId);
   }
 
+  @Get('/get-order')
+  @UseGuards(JwtAuthGuard)
+  getORderList(@Req() request: Request) {
+    console.log('Fetching from DB');
+    const customerId = (request?.user as any)?.userId;
+    return this.orderModuleService.getOrderList(customerId);
+  }
+
   @Get('/get-order/:id')
   @UseGuards(JwtAuthGuard)
   @CacheKey('order_detail')

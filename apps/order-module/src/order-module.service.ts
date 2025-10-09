@@ -43,4 +43,16 @@ export class OrderModuleService {
       return error;
     }
   }
+
+  async getOrderList(customerId: string) {
+    try {
+      const orders = await this.orderModel.findAll({
+        where: { customerId },
+        include: ['logs'],
+      });
+      return { data: orders, status: true };
+    } catch (error) {
+      return error;
+    }
+  }
 }

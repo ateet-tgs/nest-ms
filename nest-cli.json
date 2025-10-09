@@ -10,6 +10,15 @@
   "monorepo": true,
   "root": "apps/admin-app",
   "projects": {
+    "activity-logger": {
+      "type": "application",
+      "root": "apps/activity-logger",
+      "entryFile": "main",
+      "sourceRoot": "apps/activity-logger/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/activity-logger/tsconfig.app.json"
+      }
+    },
     "admin-app": {
       "type": "application",
       "root": "apps/admin-app",
@@ -53,15 +62,6 @@
       "sourceRoot": "libs/database/src",
       "compilerOptions": {
         "tsConfigPath": "libs/database/tsconfig.lib.json"
-      }
-    },
-    "library": {
-      "type": "library",
-      "root": "libs/library",
-      "entryFile": "index",
-      "sourceRoot": "libs/library/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/library/tsconfig.lib.json"
       }
     },
     "mail-service": {

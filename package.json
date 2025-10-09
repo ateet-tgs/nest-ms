@@ -13,6 +13,7 @@
     "start:order-dev": "npx cross-env APP_NAME=order-module NODE_ENV=development nest start order-module --watch",
     "start:mail-service": "npx cross-env APP_NAME=mail-service NODE_ENV=development nest start mail-service --watch",
     "start:auth-service": "npx cross-env APP_NAME=auth-service NODE_ENV=development nest start auth-service --watch",
+    "start:activity-logger": "npx cross-env APP_NAME=activity-logger NODE_ENV=development nest start activity-logger --watch",
     "db:migrate": "npx cross-env ENV_PATH=apps/admin-app/.env sequelize-cli db:migrate --config libs/database/sequelize-cli-config.js",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/apps/admin-app/main",
@@ -105,7 +106,6 @@
       "^@app/common(|/.*)$": "<rootDir>/libs/common/src/$1",
       "^@app/config(|/.*)$": "<rootDir>/libs/config/src/$1",
       "^@app/database(|/.*)$": "<rootDir>/libs/database/src/$1",
-      "^@app/library(|/.*)$": "<rootDir>/libs/library/src/$1",
       "^@app/rabbitmq(|/.*)$": "<rootDir>/libs/rabbitmq/src/$1",
       "^@app/redis-cache(|/.*)$": "<rootDir>/libs/redis-cache/src/$1",
       "^defaultLibraryPrefix/libs(|/.*)$": "<rootDir>/libs/libs/src/$1"

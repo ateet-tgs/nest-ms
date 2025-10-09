@@ -37,9 +37,6 @@
       "@app/database/*": [
         "libs/database/src/*"
       ],
-      "@app/library": [
-        "libs/library/src"
-      ],
       "@app/rabbitmq": [
         "libs/rabbitmq/src"
       ],
