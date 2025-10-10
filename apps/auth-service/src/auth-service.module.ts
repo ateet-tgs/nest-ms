@@ -9,12 +9,14 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Customer } from '@app/database/models';
 import { JwtStrategy } from '@app/common/providers';
 import { JwtAuthGuard } from '@app/common/gaurds';
+import { RabbitMQModule } from '@app/rabbitmq';
 
 @Module({
   imports: [
     SharedConfigModule,
     DatabaseModule,
     PassportModule,
+    RabbitMQModule,
     SequelizeModule.forFeature([Customer]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,

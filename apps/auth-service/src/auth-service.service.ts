@@ -1,7 +1,8 @@
 import { CreateCustomerDto, LoginDto } from '@app/common/dto';
 import { Customer } from '@app/database/models';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ClientProxy } from '@nestjs/microservices';
 import { InjectModel } from '@nestjs/sequelize';
 
 @Injectable()
@@ -10,6 +11,8 @@ export class AuthService {
     private jwtservice: JwtService,
     @InjectModel(Customer)
     private readonly customerModel: typeof Customer,
+    @Inject('RABBITMQ_SERVICE')
+    private readonly activityClient: ClientProxy,
   ) {}
 
   async register(data: CreateCustomerDto) {
@@ -40,6 +43,14 @@ export class AuthService {
     const refreshToken = this.jwtservice.sign(payload, {
       expiresIn: '7d',
       secret: process.env.jwtSecret,
+    });
+    console.log('-'.repeat(50));
+    console.log('User logged in:', user.email);
+    console.log('-'.repeat(50));
+
+    this.activityClient.send('LOGIN_SUCCESS', {
+      data: user.dataValues,
+      description: `Customer ${user.email} logged in`,
     });
     return {
       status: true,

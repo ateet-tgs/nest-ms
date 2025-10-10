@@ -10,12 +10,13 @@ async function bootstrap() {
       transport: Transport.RMQ,
       options: {
         urls: [process.env.RABBITMQ_URL!],
-        queue: process.env.ORDER_ACTIVITY_QUEUE, // Default, but we'll use multiple patterns
+        queue: 'auth_activity',
         queueOptions: { durable: true },
       },
     },
   );
 
   await app.listen();
+  console.log('📧 Logger Service is running...');
 }
 bootstrap();

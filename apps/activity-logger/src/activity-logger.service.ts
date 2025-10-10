@@ -18,6 +18,8 @@ export class ActivityLoggerService {
 
   async logEvent(data: any, source: string) {
     this.logger.log(`📥 Logging event from [${source}]: ${data.event}`);
-    await this.activityModel.create({ ...data, source });
+    this.logger.log(data);
+    console.log('-'.repeat(50));
+    // await this.activityModel.create({ ...data, source });
   }
 }
