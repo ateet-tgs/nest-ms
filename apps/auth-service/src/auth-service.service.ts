@@ -48,7 +48,8 @@ export class AuthService {
     console.log('User logged in:', user.email);
     console.log('-'.repeat(50));
 
-    this.activityClient.send('LOGIN_SUCCESS', {
+    this.activityClient.emit('auth_activity', {
+      event: 'LOGIN_SUCCESS',
       data: user.dataValues,
       description: `Customer ${user.email} logged in`,
     });

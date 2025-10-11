@@ -11,8 +11,5 @@ export class ActivityListener {
   @EventPattern('auth_activity')
   async handleAuthActivity(@Payload() data: any, @Ctx() context: RmqContext) {
     await this.activityService.logEvent(data, 'auth_activity');
-    const channel = context.getChannelRef();
-    const originalMsg = context.getMessage();
-    channel.ack(originalMsg);
   }
 }
